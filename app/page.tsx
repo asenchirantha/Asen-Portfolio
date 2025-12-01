@@ -111,9 +111,9 @@ export default function Home() {
   ];
 
   const services = [
-    { title: 'Web Development', description: 'Modern, responsive websites built with cutting-edge technologies', icon: 'code' },
-    { title: 'UI/UX Design', description: 'Beautiful, intuitive interfaces that users love', icon: 'design' },
-    { title: 'Animation', description: 'Engaging animations that bring your brand to life', icon: 'animation' }
+    { title: 'Web Development', description: 'Modern, responsive websites built with cutting-edge technologies', icon: 'code' as const },
+    { title: 'UI/UX Design', description: 'Beautiful, intuitive interfaces that users love', icon: 'design' as const },
+    { title: 'Animation', description: 'Engaging animations that bring your brand to life', icon: 'animation' as const }
   ];
 
   const stats = [
