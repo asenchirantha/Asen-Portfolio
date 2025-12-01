@@ -632,7 +632,7 @@ export default function Home() {
                     <Card
                       title={service.title}
                       description={service.description}
-                      icon={service.icon as any}
+                      iconType={service.icon}
                     />
                   </m.div>
                 ))}
