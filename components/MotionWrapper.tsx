@@ -1,5 +1,5 @@
 "use client"
-import { m } from 'framer-motion'
+import { motion } from 'framer-motion'
 import React from 'react'
 
 export const pageFade = {
@@ -10,8 +10,8 @@ export const pageFade = {
 
 export default function MotionWrapper({ children }: { children: React.ReactNode }) {
   return (
-    <m.div initial="hidden" animate="enter" exit="exit" variants={pageFade}>
+    <motion.div initial="hidden" animate="enter" exit="exit" variants={pageFade}>
       {children}
-    </m.div>
+    </motion.div>
   )
 }

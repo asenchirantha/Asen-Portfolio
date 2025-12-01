@@ -1,14 +1,15 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import { LazyMotion, domAnimation, m as motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { m, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import Card from '@/components/Card';
 import AnimatedButton from '@/components/AnimatedButton';
 import PortfolioFilter from '@/components/PortfolioFilter';
 import TechLogo from '@/components/TechLogo';
 
-const m = motion as any;
+// Type assertion for motion components to work properly with LazyMotion
+const motion = m as any;
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -179,12 +180,11 @@ export default function Home() {
   const skills = ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Node.js', 'Figma', 'UI/UX Design'];
 
   return (
-    <LazyMotion features={domAnimation}>
-      <div className="w-full overflow-hidden bg-[#0a0f1e]">
-        <section id="hero" ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#0a0f1e]">
+    <div className="w-full overflow-hidden bg-[#0a0f1e]">
+      <section id="hero" ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#0a0f1e]">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {[...Array(100)].map((_, i) => (
-              <m.div
+              <motion.div
                 key={i}
                 className="absolute w-1 h-1 bg-white rounded-full"
                 style={{
@@ -230,7 +230,7 @@ export default function Home() {
                 </filter>
               </defs>
               
-              <m.path
+              <motion.path
                 d="M0,400 Q300,300 600,400 T1200,400 L1200,800 L0,800 Z"
                 fill="url(#waveGradient1)"
                 filter="url(#glow)"
@@ -249,7 +249,7 @@ export default function Home() {
                 }}
               />
               
-              <m.path
+              <motion.path
                 d="M0,450 Q300,370 600,450 T1200,450 L1200,800 L0,800 Z"
                 fill="url(#waveGradient2)"
                 filter="url(#glow)"
@@ -268,7 +268,7 @@ export default function Home() {
                 }}
               />
               
-              <m.path
+              <motion.path
                 d="M0,500 Q300,440 600,500 T1200,500 L1200,800 L0,800 Z"
                 fill="rgba(0, 70, 160, 0.08)"
                 filter="url(#glow)"
@@ -290,12 +290,12 @@ export default function Home() {
           </div>
 
           <div className="container mx-auto px-6 relative z-20 text-center">
-            <m.div
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
               transition={{ duration: 0.8 }}
             >
-              <m.h1 
+              <motion.h1 
                 className="text-6xl md:text-8xl font-bold mb-6 text-white leading-tight"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -306,32 +306,32 @@ export default function Home() {
                 <span className="bg-gradient-to-r from-[#0066FF] via-[#0080FF] to-[#0066FF] bg-clip-text text-transparent">
                   Experiences
                 </span>
-              </m.h1>
+              </motion.h1>
               
-              <m.p 
+              <motion.p 
                 className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
               >
                 Crafting exceptional web experiences with modern technologies, creative design, and performance-driven solutions.
-              </m.p>
+              </motion.p>
               
-              <m.div 
+              <motion.div 
                 className="flex flex-wrap gap-4 justify-center mb-20"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
               >
-                <m.a
+                <motion.a
                   href="#portfolio"
                   className="px-8 py-4 rounded-full border-2 border-white/30 text-white font-semibold hover:bg-white/10 transition-all backdrop-blur-sm inline-block"
                   whileHover={{ scale: 1.05, borderColor: 'rgba(255,255,255,0.6)' }}
                   whileTap={{ scale: 0.95 }}
                 >
                   View My Work
-                </m.a>
-                <m.a
+                </motion.a>
+                <motion.a
                   href="#contact"
                   className="px-8 py-4 rounded-full bg-white text-[#0a0f1e] font-semibold hover:bg-gray-100 transition-all flex items-center gap-2"
                   whileHover={{ scale: 1.05 }}
@@ -341,12 +341,12 @@ export default function Home() {
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                </m.a>
-              </m.div>
-            </m.div>
+                </motion.a>
+              </motion.div>
+            </motion.div>
           </div>
 
-          <m.div 
+          <motion.div 
             className="absolute bottom-20 left-0 w-full z-20 overflow-hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -354,7 +354,7 @@ export default function Home() {
           >
             <div className="container mx-auto px-6">
               <div className="relative">
-                <m.div
+                <motion.div
                   className="flex items-center gap-12 md:gap-16"
                   animate={{
                     x: ['0%', '-50%']
@@ -374,16 +374,16 @@ export default function Home() {
                   ].map((tech, i) => (
                     <TechLogo key={`${tech}-${i}`} name={tech} index={i} />
                   ))}
-                </m.div>
+                </motion.div>
               </div>
             </div>
-          </m.div>
+          </motion.div>
         </section>
 
         <section id="about" className="py-20 relative">
           <div className="scanline" />
           <div className="container mx-auto px-6">
-            <m.div
+            <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -410,7 +410,7 @@ export default function Home() {
                     };
 
                     return (
-                      <m.div 
+                      <motion.div 
                         className="relative group"
                         onViewportEnter={handleViewportEnter}
                         viewport={{ once: true, amount: 0.3 }}
@@ -421,7 +421,7 @@ export default function Home() {
                           
                           {/* Content */}
                           <div className="relative z-10 text-center">
-                            <m.div 
+                            <motion.div 
                               className="text-5xl md:text-6xl font-bold mb-3"
                               style={{
                                 background: 'linear-gradient(135deg, #0066FF 0%, #00A3FF 100%)',
@@ -433,7 +433,7 @@ export default function Home() {
                               transition={{ type: "spring", stiffness: 300 }}
                             >
                               {count}{stat.suffix}
-                            </m.div>
+                            </motion.div>
                             <div className="text-gray-400 text-sm md:text-base font-medium tracking-wide">
                               {stat.label}
                             </div>
@@ -442,7 +442,7 @@ export default function Home() {
                           {/* Decorative corner */}
                           <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-[#0066FF]/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         </div>
-                      </m.div>
+                      </motion.div>
                     );
                   };
 
@@ -453,7 +453,7 @@ export default function Home() {
               <div className="max-w-5xl mx-auto mb-12">
                 <div className="grid md:grid-cols-[300px,1fr] gap-8 md:gap-12 items-start">
                   {/* Profile Photo */}
-                  <m.div
+                  <motion.div
                     initial={{ opacity: 0, x: -50 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -473,10 +473,10 @@ export default function Home() {
                         />
                       </div>
                     </div>
-                  </m.div>
+                  </motion.div>
 
                   {/* Description and Social Links */}
-                  <m.div
+                  <motion.div
                     initial={{ opacity: 0, x: 50 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -494,7 +494,7 @@ export default function Home() {
                       <h3 className="text-xl font-bold text-white mb-4">Connect With Me</h3>
                       <div className="flex flex-wrap gap-4">
                         {/* LinkedIn */}
-                        <m.a
+                        <motion.a
                           href="https://linkedin.com/in/yourprofile"
                           target="_blank"
                           rel="noopener noreferrer"
@@ -506,10 +506,10 @@ export default function Home() {
                             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                           </svg>
                           LinkedIn
-                        </m.a>
+                        </motion.a>
 
                         {/* GitHub */}
-                        <m.a
+                        <motion.a
                           href="https://github.com/yourusername"
                           target="_blank"
                           rel="noopener noreferrer"
@@ -521,10 +521,10 @@ export default function Home() {
                             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                           </svg>
                           GitHub
-                        </m.a>
+                        </motion.a>
 
                         {/* Dribbble */}
-                        <m.a
+                        <motion.a
                           href="https://dribbble.com/yourusername"
                           target="_blank"
                           rel="noopener noreferrer"
@@ -536,10 +536,10 @@ export default function Home() {
                             <path d="M12 24C5.385 24 0 18.615 0 12S5.385 0 12 0s12 5.385 12 12-5.385 12-12 12zm10.12-10.358c-.35-.11-3.17-.953-6.384-.438 1.34 3.684 1.887 6.684 1.992 7.308 2.3-1.555 3.936-4.02 4.395-6.87zm-6.115 7.808c-.153-.9-.75-4.032-2.19-7.77l-.066.02c-5.79 2.015-7.86 6.025-8.04 6.4 1.73 1.358 3.92 2.166 6.29 2.166 1.42 0 2.77-.29 4-.814zm-11.62-2.58c.232-.4 3.045-5.055 8.332-6.765.135-.045.27-.084.405-.12-.26-.585-.54-1.167-.832-1.74C7.17 11.775 2.206 11.71 1.756 11.7l-.004.312c0 2.633.998 5.037 2.634 6.855zm-2.42-8.955c.46.008 4.683.026 9.477-1.248-1.698-3.018-3.53-5.558-3.8-5.928-2.868 1.35-5.01 3.99-5.676 7.17zM9.6 2.052c.282.38 2.145 2.914 3.822 6 3.645-1.365 5.19-3.44 5.373-3.702-1.81-1.61-4.19-2.586-6.795-2.586-.825 0-1.63.1-2.4.285zm10.335 3.483c-.218.29-1.935 2.493-5.724 4.04.24.49.47.985.68 1.486.08.18.15.36.22.53 3.41-.43 6.8.26 7.14.33-.02-2.42-.88-4.64-2.31-6.38z"/>
                           </svg>
                           Dribbble
-                        </m.a>
+                        </motion.a>
 
                         {/* Behance */}
-                        <m.a
+                        <motion.a
                           href="https://behance.net/yourusername"
                           target="_blank"
                           rel="noopener noreferrer"
@@ -551,19 +551,19 @@ export default function Home() {
                             <path d="M0 7.5v9c0 .825.675 1.5 1.5 1.5h21c.825 0 1.5-.675 1.5-1.5v-9c0-.825-.675-1.5-1.5-1.5h-21C.675 6 0 6.675 0 7.5zm21.62 7.024c-.168.725-.459 1.341-.87 1.847-.41.505-.92.894-1.528 1.165-.608.271-1.282.407-2.023.407-1.054 0-1.952-.232-2.693-.697-.742-.464-1.303-1.133-1.684-2.006-.381-.873-.571-1.91-.571-3.11 0-1.201.19-2.239.571-3.113.381-.873.942-1.541 1.684-2.004.741-.464 1.639-.696 2.693-.696.828 0 1.557.153 2.187.459.63.305 1.154.733 1.572 1.284.418.55.719 1.194.903 1.931.184.736.268 1.541.25 2.415h-7.424c.05.725.25 1.277.599 1.656.35.379.798.569 1.345.569.454 0 .827-.114 1.12-.342.293-.228.487-.52.581-.878h2.704zm-10.393 1.976c.454 0 .868-.077 1.243-.231.375-.154.698-.37.97-.647.272-.277.485-.61.639-1 .154-.39.231-.822.231-1.294 0-1.069-.268-1.897-.804-2.485-.536-.588-1.276-.882-2.218-.882-.458 0-.881.077-1.268.231-.387.154-.719.37-.996.647-.277.277-.494.61-.651 1-.157.39-.236.822-.236 1.294 0 1.069.27 1.897.808 2.485.538.588 1.279.882 2.222.882zm8.389-8.5c0-.387-.137-.716-.41-.988-.273-.272-.604-.408-.994-.408s-.721.136-.994.408c-.273.272-.41.601-.41.988 0 .387.137.716.41.988.273.272.604.408.994.408s.721-.136.994-.408c.273-.272.41-.601.41-.988zm-7.202 5.5h-4.5c.05-.725.25-1.277.599-1.656.35-.379.798-.569 1.345-.569.458 0 .848.12 1.169.36.321.24.537.572.647.996h.74z"/>
                           </svg>
                           Behance
-                        </m.a>
+                        </motion.a>
                       </div>
                     </div>
-                  </m.div>
+                  </motion.div>
                 </div>
               </div>
-            </m.div>
+            </motion.div>
           </div>
         </section>
 
         <section id="skills" className="py-20 bg-[#0a1929] relative">
           <div className="container mx-auto px-6">
-            <m.div
+            <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -584,7 +584,7 @@ export default function Home() {
                   { name: 'Figma', logo: 'M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019 3.019-1.355 3.019-3.019V16.49H8.148z' },
                   { name: 'UI/UX Design', logo: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z' }
                 ].map((tech, index) => (
-                  <m.button
+                  <motion.button
                     key={tech.name}
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
@@ -601,17 +601,17 @@ export default function Home() {
                       <path d={tech.logo} />
                     </svg>
                     <span>{tech.name}</span>
-                  </m.button>
+                  </motion.button>
                 ))}
               </div>
-            </m.div>
+            </motion.div>
           </div>
         </section>
 
         <section id="services" className="py-20 bg-gray-50 dark:bg-gray-900 relative">
           <div className="lightning" />
           <div className="container mx-auto px-6">
-            <m.div
+            <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -622,7 +622,7 @@ export default function Home() {
               </h2>
               <div className="grid md:grid-cols-3 gap-8">
                 {services.map((service, index) => (
-                  <m.div
+                  <motion.div
                     key={service.title}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -634,16 +634,16 @@ export default function Home() {
                       description={service.description}
                       iconType={service.icon}
                     />
-                  </m.div>
+                  </motion.div>
                 ))}
               </div>
-            </m.div>
+            </motion.div>
           </div>
         </section>
 
         <section id="portfolio" className="py-20 relative bg-black">
           <div className="container mx-auto px-6">
-            <m.div
+            <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -660,7 +660,7 @@ export default function Home() {
 
               <div className="grid grid-cols-12 gap-4 max-w-7xl mx-auto">
                 {portfolioImages.map((img, i) => (
-                  <m.div
+                  <motion.div
                     key={img.id}
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
@@ -676,7 +676,7 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-br from-[#0066FF]/20 to-transparent group-hover:from-[#0066FF]/40 transition-all duration-500" />
                     <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30" />
                     <div className="relative w-full h-full flex items-center justify-center p-8">
-                      <m.div
+                      <motion.div
                         className="text-center"
                         initial={{ y: 20, opacity: 0 }}
                         whileInView={{ y: 0, opacity: 1 }}
@@ -688,18 +688,18 @@ export default function Home() {
                           </svg>
                         </div>
                         <span className="text-white/80 text-sm uppercase tracking-wider">{img.category}</span>
-                      </m.div>
+                      </motion.div>
                     </div>
-                  </m.div>
+                  </motion.div>
                 ))}
               </div>
-            </m.div>
+            </motion.div>
           </div>
         </section>
 
         <section id="testimonials" className="py-20 bg-black relative overflow-hidden">
           <div className="container mx-auto px-6">
-            <m.div
+            <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -721,7 +721,7 @@ export default function Home() {
 
               {/* Animated Client Logos */}
               <div className="relative overflow-hidden mb-16">
-                <m.div 
+                <motion.div 
                   className="flex items-center gap-8 md:gap-12 opacity-50"
                   animate={{ x: [0, -100] }}
                   transition={{ 
@@ -731,7 +731,7 @@ export default function Home() {
                   }}
                 >
                   {/* First set of logos */}
-                  <m.div 
+                  <motion.div 
                     className="flex items-center gap-8 md:gap-12 flex-shrink-0"
                     whileHover={{ scale: 1.1, opacity: 0.8 }}
                   >
@@ -741,9 +741,9 @@ export default function Home() {
                     <div className="text-gray-500 text-xl">◇◇◇</div>
                     <div className="text-gray-500 text-2xl font-bold">BRAND</div>
                     <div className="px-4 py-2 border border-gray-700 rounded text-gray-500 text-sm whitespace-nowrap">Company Ltd</div>
-                  </m.div>
+                  </motion.div>
                   {/* Duplicate set for seamless loop */}
-                  <m.div 
+                  <motion.div 
                     className="flex items-center gap-8 md:gap-12 flex-shrink-0"
                     whileHover={{ scale: 1.1, opacity: 0.8 }}
                   >
@@ -753,8 +753,8 @@ export default function Home() {
                     <div className="text-gray-500 text-xl">◇◇◇</div>
                     <div className="text-gray-500 text-2xl font-bold">BRAND</div>
                     <div className="px-4 py-2 border border-gray-700 rounded text-gray-500 text-sm whitespace-nowrap">Company Ltd</div>
-                  </m.div>
-                </m.div>
+                  </motion.div>
+                </motion.div>
               </div>
 
               {/* Testimonial Carousel */}
@@ -787,7 +787,7 @@ export default function Home() {
 
                 {/* Testimonial Cards Container */}
                 <div className="overflow-hidden px-12 md:px-16">
-                  <m.div 
+                  <motion.div 
                     className="flex gap-6"
                     animate={{ 
                       x: `-${(currentSlide % testimonials.length) * (100 / testimonials.length)}%`
@@ -796,7 +796,7 @@ export default function Home() {
                   >
                     {/* Create continuous loop by duplicating testimonials */}
                     {[...testimonials, ...testimonials, ...testimonials].map((testimonial, i) => (
-                      <m.div
+                      <motion.div
                         key={`testimonial-${i}`}
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
@@ -837,9 +837,9 @@ export default function Home() {
                           <p className="text-white font-bold text-sm">{testimonial.name} - {testimonial.role}</p>
                           <p className="text-gray-400 text-xs">{testimonial.company}</p>
                         </div>
-                      </m.div>
+                      </motion.div>
                     ))}
-                  </m.div>
+                  </motion.div>
                 </div>
 
                 {/* Progress Dots */}
@@ -857,7 +857,7 @@ export default function Home() {
                           : 'bg-gray-600 hover:bg-gray-500'
                       }`} />
                       {(currentSlide % testimonials.length) === index && (
-                        <m.div
+                        <motion.div
                           className="absolute top-0 left-0 h-2 bg-[#0066FF] rounded-full"
                           key={`progress-${currentSlide}`}
                           initial={{ width: 0 }}
@@ -869,13 +869,13 @@ export default function Home() {
                   ))}
                 </div>
               </div>
-            </m.div>
+            </motion.div>
           </div>
         </section>
 
         <section id="features" className="py-20 bg-black relative">
           <div className="container mx-auto px-6">
-            <m.div
+            <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -893,20 +893,20 @@ export default function Home() {
               <p className="text-gray-400 text-lg mb-8">
                 Get unlimited design features that give you the freedom to create without boundaries.
               </p>
-              <m.button
+              <motion.button
                 className="px-8 py-4 rounded-lg bg-[#0066FF]/10 border border-[#0066FF] text-[#0066FF] font-semibold hover:bg-[#0066FF]/20 transition-all"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 View About Landin
-              </m.button>
-            </m.div>
+              </motion.button>
+            </motion.div>
           </div>
         </section>
 
         <section id="pricing" className="py-20 bg-[#0a0f1e] relative">
           <div className="container mx-auto px-6">
-            <m.div
+            <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -928,7 +928,7 @@ export default function Home() {
 
               <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 {/* Basic Plan */}
-                <m.div
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -991,17 +991,17 @@ export default function Home() {
                     ))}
                   </div>
 
-                  <m.button
+                  <motion.button
                     className="w-full py-4 rounded-lg bg-[#0066FF]/10 border border-[#0066FF] text-[#0066FF] font-semibold hover:bg-[#0066FF]/20 transition-all"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     Book an Appointment
-                  </m.button>
-                </m.div>
+                  </motion.button>
+                </motion.div>
 
                 {/* Premium Plan */}
-                <m.div
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -1063,22 +1063,22 @@ export default function Home() {
                     ))}
                   </div>
 
-                  <m.button
+                  <motion.button
                     className="w-full py-4 rounded-lg bg-[#0066FF]/10 border border-[#0066FF] text-[#0066FF] font-semibold hover:bg-[#0066FF]/20 transition-all"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     Book an Appointment
-                  </m.button>
-                </m.div>
+                  </motion.button>
+                </motion.div>
               </div>
-            </m.div>
+            </motion.div>
           </div>
         </section>
 
         <section id="faq" className="py-20 bg-black relative">
           <div className="container mx-auto px-6">
-            <m.div
+            <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -1126,7 +1126,7 @@ export default function Home() {
                       answer: "You'll receive the complete source code, detailed documentation, setup instructions, and access to our support team. We also provide free updates and bug fixes to ensure your project stays current with the latest technologies."
                     }
                   ].map((faq, index) => (
-                    <m.div
+                    <motion.div
                       key={index}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -1134,7 +1134,7 @@ export default function Home() {
                       transition={{ delay: index * 0.1 }}
                       className="group"
                     >
-                      <m.details className="bg-[#0d1428] rounded-xl border border-white/5 hover:border-[#0066FF]/30 transition-all overflow-hidden">
+                      <motion.details className="bg-[#0d1428] rounded-xl border border-white/5 hover:border-[#0066FF]/30 transition-all overflow-hidden">
                         <summary className="flex items-center justify-between cursor-pointer p-6 list-none">
                           <h3 className="text-white font-medium text-lg pr-4">{faq.question}</h3>
                           <div className="w-6 h-6 rounded-full bg-[#0066FF]/10 flex items-center justify-center flex-shrink-0 group-open:bg-[#0066FF]/20 transition-all">
@@ -1146,19 +1146,19 @@ export default function Home() {
                         <div className="px-6 pb-6 text-gray-400 leading-relaxed">
                           {faq.answer}
                         </div>
-                      </m.details>
-                    </m.div>
+                      </motion.details>
+                    </motion.div>
                   ))}
                 </div>
               </div>
-            </m.div>
+            </motion.div>
           </div>
         </section>
 
         <section id="contact" className="py-20 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-gray-900 dark:to-[#0a1929] relative">
           <div className="lightning" />
           <div className="container mx-auto px-6">
-            <m.div
+            <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -1172,7 +1172,7 @@ export default function Home() {
                 Have a project in mind? I&apos;d love to hear about it!
               </p>
 
-              <m.form
+              <motion.form
                 className="glass-card p-8 space-y-6"
                 initial={{ y: 20 }}
                 whileInView={{ y: 0 }}
@@ -1208,15 +1208,15 @@ export default function Home() {
                   />
                 </div>
 
-                <m.button
+                <motion.button
                   type="submit"
                   className="w-full bg-[#0066FF]/10 border border-[#0066FF] text-[#0066FF] font-semibold py-4 rounded-lg hover:bg-[#0066FF]/20 transition-all"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
                   Send Message
-                </m.button>
-              </m.form>
+                </motion.button>
+              </motion.form>
 
               <div className="mt-12 flex justify-center gap-6">
                 {[
@@ -1224,7 +1224,7 @@ export default function Home() {
                   { name: 'LinkedIn', icon: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z' },
                   { name: 'Twitter', icon: 'M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z' }
                 ].map((social) => (
-                  <m.a
+                  <motion.a
                     key={social.name}
                     href="#"
                     className="w-12 h-12 rounded-full bg-[#0066FF]/10 border border-[#0066FF] flex items-center justify-center text-[#0066FF] hover:bg-[#0066FF]/20 transition-all"
@@ -1235,13 +1235,12 @@ export default function Home() {
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                       <path d={social.icon} />
                     </svg>
-                  </m.a>
+                  </motion.a>
                 ))}
               </div>
-            </m.div>
+            </motion.div>
           </div>
         </section>
       </div>
-    </LazyMotion>
   );
 }

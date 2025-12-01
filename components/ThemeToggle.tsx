@@ -3,6 +3,9 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { m } from 'framer-motion'
 
+// Type assertion for motion components to work properly with LazyMotion
+const motion = m as any;
+
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
@@ -26,18 +29,18 @@ export default function ThemeToggle() {
       {/* Night sky with stars */}
       {isDark && (
         <>
-          <m.div
+          <motion.div
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             className="absolute top-2 left-8 w-1 h-1 bg-white rounded-full"
           />
-          <m.div
+          <motion.div
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.1 }}
             className="absolute top-4 left-12 w-0.5 h-0.5 bg-white rounded-full"
           />
-          <m.div
+          <motion.div
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
@@ -49,15 +52,15 @@ export default function ThemeToggle() {
       {/* Day sky with clouds */}
       {!isDark && (
         <>
-          <m.div
+          <motion.div
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             className="absolute top-2 left-8 flex items-center gap-1"
           >
             <div className="w-3 h-2 bg-white/80 rounded-full" />
             <div className="w-2 h-1.5 bg-white/60 rounded-full -ml-1" />
-          </m.div>
-          <m.div
+          </motion.div>
+          <motion.div
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
@@ -65,12 +68,12 @@ export default function ThemeToggle() {
           >
             <div className="w-2.5 h-1.5 bg-white/70 rounded-full" />
             <div className="w-1.5 h-1 bg-white/50 rounded-full -ml-0.5" />
-          </m.div>
+          </motion.div>
         </>
       )}
 
       {/* Toggle circle (sun/moon) */}
-      <m.div
+      <motion.div
         layout
         transition={{
           type: "spring",
@@ -94,7 +97,7 @@ export default function ThemeToggle() {
 
         {/* Sun rays */}
         {!isDark && (
-          <m.div
+          <motion.div
             animate={{ rotate: 360 }}
             transition={{
               duration: 20,
@@ -113,9 +116,9 @@ export default function ThemeToggle() {
                 }}
               />
             ))}
-          </m.div>
+          </motion.div>
         )}
-      </m.div>
+      </motion.div>
     </button>
   )
 }

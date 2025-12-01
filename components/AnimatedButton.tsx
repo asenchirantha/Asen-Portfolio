@@ -2,9 +2,12 @@
 import { m } from 'framer-motion'
 import React from 'react'
 
+// Type assertion for motion components to work properly with LazyMotion
+const motion = m as any;
+
 export default function AnimatedButton({ children, variant = 'solid' }: { children: React.ReactNode, variant?: 'solid' | 'outline' }) {
   return (
-    <m.button
+    <motion.button
       whileHover={{ 
         scale: 1.05,
         boxShadow: variant === 'solid' 
@@ -23,7 +26,7 @@ export default function AnimatedButton({ children, variant = 'solid' }: { childr
     >
       {/* Animated shine effect */}
       {variant === 'solid' && (
-        <m.div
+        <motion.div
           className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
           initial={{ x: '-100%' }}
           whileHover={{ x: '100%' }}
@@ -37,23 +40,23 @@ export default function AnimatedButton({ children, variant = 'solid' }: { childr
       {/* Content */}
       <span className="relative z-10 flex items-center gap-2">
         {children}
-        <m.span
+        <motion.span
           initial={{ x: 0 }}
           whileHover={{ x: 5 }}
           transition={{ duration: 0.2 }}
         >
           →
-        </m.span>
+        </motion.span>
       </span>
       
       {/* Outline variant hover gradient */}
       {variant === 'outline' && (
-        <m.div
+        <motion.div
           className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity"
           animate={{ x: ['-100%', '100%'] }}
           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
         />
       )}
-    </m.button>
+    </motion.button>
   )
 }

@@ -6,7 +6,7 @@ import { LazyMotion, domAnimation } from 'framer-motion'
 
 export default function Providers({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem suppressHydrationWarning>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <LazyMotion features={domAnimation} strict>
         {children}
       </LazyMotion>

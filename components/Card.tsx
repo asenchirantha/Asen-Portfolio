@@ -2,6 +2,9 @@
 import React, { useRef, useState } from 'react'
 import { m, useMotionValue, useSpring, useTransform } from 'framer-motion'
 
+// Type assertion for motion components to work properly with LazyMotion
+const motion = m as any;
+
 interface CardProps {
   title: string
   description?: string
@@ -70,7 +73,7 @@ export default function Card({ title, description, iconType = 'code', delay = 0 
   }
 
   return (
-    <m.div
+    <motion.div
       ref={cardRef}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -87,7 +90,7 @@ export default function Card({ title, description, iconType = 'code', delay = 0 
       className="glass-card group cursor-pointer relative overflow-hidden energy-field lightning scanline"
     >
       {/* 3D Icon */}
-      <m.div 
+      <motion.div 
         className="relative w-16 h-16 mb-6 mx-auto"
         animate={{
           rotateY: isHovered ? 360 : 0,
@@ -97,13 +100,13 @@ export default function Card({ title, description, iconType = 'code', delay = 0 
         style={{ transformStyle: "preserve-3d" }}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-primary to-purple-600 rounded-xl opacity-20 blur-xl" />
-        <m.div 
+        <motion.div 
           className="relative w-full h-full bg-gradient-to-br from-primary to-purple-600 rounded-xl flex items-center justify-center text-white shadow-2xl"
           style={{ transform: "translateZ(20px)" }}
         >
           <IconSVG type={iconType} />
-        </m.div>
-      </m.div>
+        </motion.div>
+      </motion.div>
 
       <div style={{ transform: "translateZ(30px)" }}>
         <h4 className="font-bold text-xl mb-3 group-hover:text-primary transition-colors neon-glow">
@@ -122,7 +125,7 @@ export default function Card({ title, description, iconType = 'code', delay = 0 
       </div>
       
       {/* Holographic border */}
-      <m.div 
+      <motion.div 
         className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
         style={{
           background: "linear-gradient(45deg, transparent 30%, rgba(99, 102, 241, 0.1) 50%, transparent 70%)",
@@ -133,6 +136,6 @@ export default function Card({ title, description, iconType = 'code', delay = 0 
         } : {}}
         transition={{ duration: 2, repeat: Infinity }}
       />
-    </m.div>
+    </motion.div>
   )
 }
