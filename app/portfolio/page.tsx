@@ -1,5 +1,6 @@
 import Section from '../../components/Section'
 import PortfolioFilter from '../../components/PortfolioFilter'
+import projects from '../../data/projects'
 
 export default function PortfolioPage() {
   return (
