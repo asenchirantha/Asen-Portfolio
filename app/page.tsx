@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Card from '@/components/Card';
 import AnimatedButton from '@/components/AnimatedButton';
 import PortfolioFilter from '@/components/PortfolioFilter';
-import TechLogo from '@/components/TechLogo';
 
 // Type assertion for motion components to work properly with LazyMotion
 const motion = m as any;
@@ -15,12 +14,21 @@ export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isNearFooter, setIsNearFooter] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsVisible(true);
     const handleScroll = () => {
       setScrollY(window.scrollY);
+      
+      // Check if user is near the footer (within 500px from bottom)
+      const scrollHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY;
+      const clientHeight = window.innerHeight;
+      const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
+      
+      setIsNearFooter(distanceFromBottom < 500);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -103,18 +111,27 @@ export default function Home() {
   ];
 
   const portfolioImages = [
-    { id: 1, size: 'large', category: 'web' },
-    { id: 2, size: 'medium', category: 'design' },
-    { id: 3, size: 'medium', category: 'mobile' },
-    { id: 4, size: 'large', category: 'branding' },
-    { id: 5, size: 'medium', category: 'web' },
-    { id: 6, size: 'small', category: 'ui' }
+    { id: 1, size: 'medium', category: 'web', row: 1 },
+    { id: 2, size: 'medium', category: 'design', row: 1 },
+    { id: 3, size: 'medium', category: 'mobile', row: 1 },
+    { id: 4, size: 'medium', category: 'branding', row: 1 },
+    { id: 5, size: 'medium', category: 'ui', row: 1 },
+    { id: 6, size: 'medium', category: 'web', row: 1 },
+    { id: 7, size: 'medium', category: 'app', row: 2 },
+    { id: 8, size: 'medium', category: 'design', row: 2 },
+    { id: 9, size: 'medium', category: 'branding', row: 2 },
+    { id: 10, size: 'medium', category: 'web', row: 2 },
+    { id: 11, size: 'medium', category: 'mobile', row: 2 },
+    { id: 12, size: 'medium', category: 'ui', row: 2 }
   ];
 
   const services = [
-    { title: 'Web Development', description: 'Modern, responsive websites built with cutting-edge technologies', icon: 'code' as const },
+    { title: 'Web/Mobile Development', description: 'Modern, responsive websites and mobile applications', icon: 'code' as const },
     { title: 'UI/UX Design', description: 'Beautiful, intuitive interfaces that users love', icon: 'design' as const },
-    { title: 'Animation', description: 'Engaging animations that bring your brand to life', icon: 'animation' as const }
+    { title: 'Graphic Design', description: 'Creative visual solutions for your brand identity', icon: 'design' as const },
+    { title: 'Animations', description: 'Engaging animations that bring your brand to life', icon: 'animation' as const },
+    { title: 'Video Production', description: 'Professional video content for your business', icon: 'animation' as const },
+    { title: 'Marketing', description: 'Strategic marketing solutions to grow your business', icon: 'code' as const }
   ];
 
   const stats = [
@@ -179,8 +196,24 @@ export default function Home() {
 
   const skills = ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Node.js', 'Figma', 'UI/UX Design'];
 
+  // Calculate blur intensity based on scroll position, but hide when near footer
+  const blurIntensity = isNearFooter ? 0 : Math.min(scrollY / 300, 1);
+
   return (
-    <div className="w-full overflow-hidden bg-[#0a0f1e]">
+    <div className="w-full overflow-hidden bg-[#0a0f1e] relative">
+      {/* Bottom blur overlay that increases with scroll and fades out near footer */}
+      <div 
+        className="fixed bottom-0 left-0 right-0 h-32 pointer-events-none z-50 transition-all duration-500"
+        style={{
+          backdropFilter: `blur(${blurIntensity * 12}px)`,
+          WebkitBackdropFilter: `blur(${blurIntensity * 12}px)`,
+          maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+          background: `rgba(10, 15, 30, ${blurIntensity * 0.3})`,
+          opacity: blurIntensity
+        }}
+      />
+      
       <section id="hero" ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#0a0f1e]">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {[...Array(100)].map((_, i) => (
@@ -372,7 +405,13 @@ export default function Home() {
                     'Figma', 'Node.js', 'JavaScript', 'Python', 'MongoDB', 'React', 'Next.js', 'TypeScript', 'Tailwind',
                     'Figma', 'Node.js', 'JavaScript', 'Python', 'MongoDB', 'React', 'Next.js', 'TypeScript', 'Tailwind'
                   ].map((tech, i) => (
-                    <TechLogo key={`${tech}-${i}`} name={tech} index={i} />
+                    <div
+                      key={`${tech}-${i}`}
+                      className="flex-shrink-0 w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center text-white font-bold text-xs hover:bg-white/10 transition-colors"
+                      title={tech}
+                    >
+                      {tech.substring(0, 2).toUpperCase()}
+                    </div>
                   ))}
                 </motion.div>
               </div>
@@ -495,7 +534,7 @@ export default function Home() {
                       <div className="flex flex-wrap gap-4">
                         {/* LinkedIn */}
                         <motion.a
-                          href="https://linkedin.com/in/yourprofile"
+                          href="https://linkedin.com/in/asenchirantha/"
                           target="_blank"
                           rel="noopener noreferrer"
                           whileHover={{ scale: 1.05, y: -2 }}
@@ -510,7 +549,7 @@ export default function Home() {
 
                         {/* GitHub */}
                         <motion.a
-                          href="https://github.com/yourusername"
+                          href="https://github.com/asenchirantha"
                           target="_blank"
                           rel="noopener noreferrer"
                           whileHover={{ scale: 1.05, y: -2 }}
@@ -525,7 +564,7 @@ export default function Home() {
 
                         {/* Dribbble */}
                         <motion.a
-                          href="https://dribbble.com/yourusername"
+                          href="https://dribbble.com/asen-chirantha"
                           target="_blank"
                           rel="noopener noreferrer"
                           whileHover={{ scale: 1.05, y: -2 }}
@@ -540,7 +579,7 @@ export default function Home() {
 
                         {/* Behance */}
                         <motion.a
-                          href="https://behance.net/yourusername"
+                          href="https://behance.net/asenchirantha"
                           target="_blank"
                           rel="noopener noreferrer"
                           whileHover={{ scale: 1.05, y: -2 }}
@@ -608,32 +647,166 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="services" className="py-20 bg-gray-50 dark:bg-gray-900 relative">
-          <div className="lightning" />
-          <div className="container mx-auto px-6">
+        <section id="services" className="py-20 bg-[#0a0f1e] relative overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {[...Array(50)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-1 h-1 bg-[#0066FF] rounded-full"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  opacity: Math.random() * 0.3 + 0.1
+                }}
+                animate={{
+                  y: [-10, 10],
+                  opacity: [0.1, 0.4, 0.1]
+                }}
+                transition={{
+                  duration: Math.random() * 3 + 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            ))}
+          </div>
+          
+          <div className="container mx-auto px-6 relative z-10">
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center neon-glow">
-                What I Do
-              </h2>
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center mb-12">
+                <span className="inline-block px-4 py-1.5 rounded-full bg-[#0066FF]/10 text-[#0066FF] text-sm font-medium mb-4">
+                  Services
+                </span>
+                <h2 className="text-4xl md:text-6xl font-bold neon-glow mb-4">
+                  What I Do
+                </h2>
+              </div>
+              
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
                 {services.map((service, index) => (
                   <motion.div
                     key={service.title}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
+                    transition={{ delay: index * 0.1, duration: 0.5 }}
+                    className="group"
                   >
-                    <Card
-                      title={service.title}
-                      description={service.description}
-                      iconType={service.icon}
-                    />
+                    <div className="relative h-full">
+                      {/* Glassmorphism card */}
+                      <div className="relative bg-[#0d1428]/40 backdrop-blur-xl rounded-2xl p-8 border border-[#0066FF]/20 hover:border-[#0066FF]/50 transition-all duration-300 h-full">
+                        {/* Gradient background on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#0066FF]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+                        
+                        {/* Content */}
+                        <div className="relative z-10">
+                          {/* 3D Icon Illustration */}
+                          <motion.div 
+                            className="relative w-20 h-20 mb-6"
+                            whileHover={{ 
+                              rotateY: 15,
+                              rotateX: -10,
+                              scale: 1.1
+                            }}
+                            transition={{ type: "spring", stiffness: 300 }}
+                            style={{ 
+                              perspective: "1000px",
+                              transformStyle: "preserve-3d"
+                            }}
+                          >
+                            <div 
+                              className="absolute inset-0 rounded-2xl flex items-center justify-center"
+                              style={{
+                                background: 'linear-gradient(135deg, #0066FF 0%, #00A3FF 100%)',
+                                boxShadow: '0 20px 40px rgba(0, 102, 255, 0.3), inset 0 -5px 20px rgba(0, 0, 0, 0.3)',
+                                transform: 'translateZ(20px)'
+                              }}
+                            >
+                              {/* Single color SVG illustrations */}
+                              {service.title === 'Web/Mobile Development' && (
+                                <svg className="w-12 h-12" viewBox="0 0 64 64" fill="white" style={{ transform: 'translateZ(10px)' }}>
+                                  <path d="M8 8h48v40H8z" opacity="0.2"/>
+                                  <rect x="8" y="8" width="48" height="4" />
+                                  <path d="M20 20l8 8-8 8m12 0h12"/>
+                                  <rect x="8" y="52" width="48" height="4" rx="2"/>
+                                </svg>
+                              )}
+                              {service.title === 'UI/UX Design' && (
+                                <svg className="w-12 h-12" viewBox="0 0 64 64" fill="white" style={{ transform: 'translateZ(10px)' }}>
+                                  <circle cx="32" cy="20" r="12" opacity="0.3"/>
+                                  <path d="M16 36c0-8.837 7.163-16 16-16s16 7.163 16 16"/>
+                                  <rect x="12" y="40" width="40" height="16" rx="2" opacity="0.2"/>
+                                  <path d="M20 48h24M24 52h16"/>
+                                </svg>
+                              )}
+                              {service.title === 'Graphic Design' && (
+                                <svg className="w-12 h-12" viewBox="0 0 64 64" fill="white" style={{ transform: 'translateZ(10px)' }}>
+                                  <path d="M16 48L32 16l16 32z" opacity="0.3"/>
+                                  <circle cx="20" cy="20" r="8"/>
+                                  <rect x="36" y="12" width="16" height="16" opacity="0.2"/>
+                                  <path d="M44 36l8 8-8 8-8-8z"/>
+                                </svg>
+                              )}
+                              {service.title === 'Animations' && (
+                                <svg className="w-12 h-12" viewBox="0 0 64 64" fill="white" style={{ transform: 'translateZ(10px)' }}>
+                                  <circle cx="32" cy="32" r="24" opacity="0.2"/>
+                                  <path d="M26 20v24l20-12z"/>
+                                  <circle cx="32" cy="32" r="28" fill="none" stroke="white" strokeWidth="2" opacity="0.3"/>
+                                </svg>
+                              )}
+                              {service.title === 'Video Production' && (
+                                <svg className="w-12 h-12" viewBox="0 0 64 64" fill="white" style={{ transform: 'translateZ(10px)' }}>
+                                  <rect x="8" y="16" width="32" height="32" rx="2" opacity="0.3"/>
+                                  <path d="M40 24l16-8v32l-16-8z"/>
+                                  <circle cx="20" cy="28" r="4"/>
+                                  <circle cx="28" cy="36" r="3" opacity="0.5"/>
+                                </svg>
+                              )}
+                              {service.title === 'Marketing' && (
+                                <svg className="w-12 h-12" viewBox="0 0 64 64" fill="white" style={{ transform: 'translateZ(10px)' }}>
+                                  <rect x="12" y="40" width="8" height="16" opacity="0.3"/>
+                                  <rect x="24" y="32" width="8" height="24" opacity="0.5"/>
+                                  <rect x="36" y="24" width="8" height="32" opacity="0.7"/>
+                                  <rect x="48" y="16" width="8" height="40"/>
+                                  <path d="M8 12l48 0" stroke="white" strokeWidth="2" opacity="0.3"/>
+                                </svg>
+                              )}
+                            </div>
+                            {/* Glossy overlay */}
+                            <div 
+                              className="absolute inset-0 rounded-2xl pointer-events-none"
+                              style={{
+                                background: 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%)',
+                                transform: 'translateZ(30px)'
+                              }}
+                            />
+                            {/* Shadow layer */}
+                            <div 
+                              className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-3 rounded-full bg-[#0066FF]/20 blur-md"
+                              style={{ transform: 'translateZ(0px) translateX(-50%)' }}
+                            />
+                          </motion.div>
+                          
+                          {/* Title */}
+                          <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#0066FF] transition-colors duration-300">
+                            {service.title}
+                          </h3>
+                          
+                          {/* Description */}
+                          <p className="text-gray-400 leading-relaxed">
+                            {service.description}
+                          </p>
+                        </div>
+                        
+                        {/* Decorative corner */}
+                        <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-[#0066FF]/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -658,40 +831,94 @@ export default function Home() {
                 </h2>
               </div>
 
-              <div className="grid grid-cols-12 gap-4 max-w-7xl mx-auto">
-                {portfolioImages.map((img, i) => (
+              <div className="space-y-6 max-w-7xl mx-auto overflow-hidden">
+                {/* First Row - Moving Left to Right */}
+                <div className="relative">
+                  {/* Left blur gradient */}
+                  <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-[#0a0f1e] to-transparent z-10 pointer-events-none" />
+                  {/* Right blur gradient */}
+                  <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-[#0a0f1e] to-transparent z-10 pointer-events-none" />
+                  
                   <motion.div
-                    key={img.id}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    className={`relative overflow-hidden rounded-2xl group cursor-pointer ${
-                      img.size === 'large' ? 'col-span-12 md:col-span-8 h-80' : 
-                      img.size === 'medium' ? 'col-span-12 md:col-span-4 h-80' :
-                      'col-span-12 md:col-span-4 h-64'
-                    }`}
-                    whileHover={{ scale: 1.02 }}
+                    className="flex gap-3 sm:gap-4"
+                    animate={{
+                      x: [0, -1920]
+                    }}
+                    transition={{
+                      x: {
+                        duration: 60,
+                        repeat: Infinity,
+                        ease: "linear"
+                      }
+                    }}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#0066FF]/20 to-transparent group-hover:from-[#0066FF]/40 transition-all duration-500" />
-                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30" />
-                    <div className="relative w-full h-full flex items-center justify-center p-8">
+                    {/* Duplicate items for seamless loop */}
+                    {[...portfolioImages.filter(img => img.row === 1), ...portfolioImages.filter(img => img.row === 1)].map((img, i) => (
                       <motion.div
-                        className="text-center"
-                        initial={{ y: 20, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.2 }}
+                        key={`${img.id}-${i}`}
+                        className="relative overflow-hidden rounded-xl sm:rounded-2xl group cursor-pointer min-w-[200px] sm:min-w-[300px] h-48 sm:h-64 flex-shrink-0"
+                        whileHover={{ scale: 1.05, zIndex: 10 }}
                       >
-                        <div className="w-16 h-16 rounded-xl bg-[#0066FF]/20 backdrop-blur-sm flex items-center justify-center mx-auto mb-4 group-hover:bg-[#0066FF]/40 transition-all">
-                          <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                          </svg>
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#0066FF]/20 to-transparent group-hover:from-[#0066FF]/40 transition-all duration-500" />
+                        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30" />
+                        <div className="relative w-full h-full flex items-center justify-center p-8">
+                          <div className="text-center">
+                            <div className="w-16 h-16 rounded-xl bg-[#0066FF]/20 backdrop-blur-sm flex items-center justify-center mx-auto mb-4 group-hover:bg-[#0066FF]/40 transition-all">
+                              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                              </svg>
+                            </div>
+                            <span className="text-white/80 text-sm uppercase tracking-wider">{img.category}</span>
+                          </div>
                         </div>
-                        <span className="text-white/80 text-sm uppercase tracking-wider">{img.category}</span>
                       </motion.div>
-                    </div>
+                    ))}
                   </motion.div>
-                ))}
+                </div>
+
+                {/* Second Row - Moving Right to Left (reverse direction) */}
+                <div className="relative">
+                  {/* Left blur gradient */}
+                  <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-[#0a0f1e] to-transparent z-10 pointer-events-none" />
+                  {/* Right blur gradient */}
+                  <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-[#0a0f1e] to-transparent z-10 pointer-events-none" />
+                  
+                  <motion.div
+                    className="flex gap-3 sm:gap-4"
+                    animate={{
+                      x: [-1920, 0]
+                    }}
+                    transition={{
+                      x: {
+                        duration: 60,
+                        repeat: Infinity,
+                        ease: "linear"
+                      }
+                    }}
+                  >
+                    {/* Duplicate items for seamless loop */}
+                    {[...portfolioImages.filter(img => img.row === 2), ...portfolioImages.filter(img => img.row === 2)].map((img, i) => (
+                      <motion.div
+                        key={`${img.id}-${i}`}
+                        className="relative overflow-hidden rounded-xl sm:rounded-2xl group cursor-pointer min-w-[200px] sm:min-w-[300px] h-48 sm:h-64 flex-shrink-0"
+                        whileHover={{ scale: 1.05, zIndex: 10 }}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#0066FF]/20 to-transparent group-hover:from-[#0066FF]/40 transition-all duration-500" />
+                        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30" />
+                        <div className="relative w-full h-full flex items-center justify-center p-8">
+                          <div className="text-center">
+                            <div className="w-16 h-16 rounded-xl bg-[#0066FF]/20 backdrop-blur-sm flex items-center justify-center mx-auto mb-4 group-hover:bg-[#0066FF]/40 transition-all">
+                              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                              </svg>
+                            </div>
+                            <span className="text-white/80 text-sm uppercase tracking-wider">{img.category}</span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </div>
               </div>
             </motion.div>
           </div>
